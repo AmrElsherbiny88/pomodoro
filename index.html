@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pomodoro Timer</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="Bootstrap\cdn.jsdelivr.net_npm_bootstrap@5.0.2_dist_css_bootstrap.min.css">
+</head>
+<body>
+
+   
+  <div class="container">
+    <h1>Pomodoro Timer</h1>
+    <div class="settings">
+      <div class="counterrr">
+        <label for="session-length">Session Length (minutes):</label>
+        <input id="session-length" type="number" min="1" max="60" value="25">
+      </div>
+      <div class="counterrr">
+        <label for="break-length">Break Length (minutes):</label>
+        <input id="break-length" type="number" min="1" max="60" value="5">
+      </div>
+      <div class="counterrr">
+        <label for="long-break-length">Long Break Length (minutes):</label>
+        <input id="long-break-length" type="number" min="1" max="60" value="15">
+      </div>
+      <div class="counterrr">
+        <label for="long-break-interval">Long Break Interval (sessions):</label>
+        <input id="long-break-interval" type="number" min="1" max="60" value="4">
+      </div>
+    </div>
+    <div class="timer">
+      <span id="minutes">25</span>
+      <span>:</span>
+      <span id="seconds">00</span>
+    </div>
+    <div class="session-counters">
+      <p>Session Count: <span id="session-count">0</span></p>
+      <p>Long Break Count: <span id="long-break-count">0</span></p>
+    </div>
+    <div class="controls">
+      <button id="start">Start</button>
+      <button id="pause">Pause</button>
+      <button id="reset">Reset</button>
+    </div>
+  </div>
+  <div class="theme-btn-container" id="theme-btn"></div>
+
+  <audio id="notification">
+    <source src="mixkit-clear-announce-tones-2861.wav" type="audio/mpeg">
+  </audio>
+
+
+  <script src="Bootstrap\cdn.jsdelivr.net_npm_bootstrap@5.0.2_dist_js_bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

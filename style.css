@@ -1,0 +1,80 @@
+.container {
+    text-align: center;
+    margin-top: 100px;
+  }
+  
+  .settings {
+    margin-bottom: 20px;
+  }
+
+  .counterrr {
+    scale: 1.2;
+  }
+  
+  .settings div {
+    margin-bottom: 10px;
+  }
+  
+  .timer {
+    font-size: 80px;
+    
+  }
+  
+  .session-state {
+    margin-bottom: 20px;
+    
+  }
+  
+  .counters {
+    margin-bottom: 20px;
+    
+  }
+  
+  .controls {
+    margin-top: 20px;
+  }
+  
+  button {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+    overflow: hidden;
+    outline: none;
+    border: none;
+
+  }
+
+
+
+  body {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "poppins";
+    background: var(--background);
+    color: var(--color);
+    letter-spacing: 1px;
+    transition: background 0.7s ease;
+    -webkit-transition: background 0.7s ease;
+    -moz-transition: background 0.7s ease;
+    -ms-transition: background 0.7s ease;
+    -o-transition: background 0.7s ease;
+    max-height: max-content;
+    overflow: hidden;
+}
+
+.theme-btn {
+    cursor: pointer;
+    border-radius: 0%;
+    width: 40px;
+    scale: 1.5;
+    margin: 20px;
+    transition: all 0.3s ease-in;
+}
+
+
+:root {
+    --background: #1a1a2e;
+    --color: #ffffff;
+    --primary-color: #0f3460;
+}
