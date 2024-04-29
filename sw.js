@@ -1,4 +1,4 @@
-const CACHE_NAME = 'Pomodorov2';
+const CACHE_NAME = 'Pomodorov1';
 const urlsToCache = [
     '/',
     '/script.js',
@@ -19,8 +19,18 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
     event.waitUntil(
-        self.clients.claim()
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.filter(cacheName => {
+                    return cacheName.startsWith('Pomodorov') && cacheName !== CACHE_NAME;
+                }).map(cacheName => {
+                    return caches.delete(cacheName);
+                })
+            );
+        })
     );
+
+    self.clients.claim();
 });
 
 self.addEventListener('fetch', event => {
@@ -30,7 +40,18 @@ self.addEventListener('fetch', event => {
                 if (response) {
                     return response;
                 }
-                return fetch(event.request);
+
+                return fetch(event.request)
+                    .then(response => {
+                        const responseClone = response.clone();
+
+                        caches.open(CACHE_NAME)
+                            .then(cache => {
+                                cache.put(event.request, responseClone);
+                            });
+
+                        return response;
+                    });
             })
     );
 });
