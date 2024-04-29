@@ -1,4 +1,4 @@
-const CACHE_NAME = 'PomodoroV3';
+const CACHE_NAME = 'Pomodorov2';
 const urlsToCache = [
     '/',
     '/script.js',
@@ -8,17 +8,19 @@ const urlsToCache = [
     '/mainfest.json',
     '/mixkit-clear-announce-tones-2861_43iHpxKb.wav',
     '/style.css',
- 
-    
 ];
 
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => cache.addAll(urlsToCache))
-            
     );
-    self.skipWaiting();
+});
+
+self.addEventListener('activate', event => {
+    event.waitUntil(
+        self.clients.claim()
+    );
 });
 
 self.addEventListener('fetch', event => {
@@ -32,5 +34,3 @@ self.addEventListener('fetch', event => {
             })
     );
 });
-
-
