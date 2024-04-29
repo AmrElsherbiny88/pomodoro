@@ -1,17 +1,20 @@
-window.addEventListener('DOMContentLoaded', () => {
-  const minutesDisplay = document.getElementById('minutes');
-  const secondsDisplay = document.getElementById('seconds');
-  const sessionLengthInput = document.getElementById('session-length');
-  const breakLengthInput = document.getElementById('break-length');
-  const longBreakLengthInput = document.getElementById('long-break-length');
-  const longBreakIntervalInput = document.getElementById('long-break-interval');
-  const startButton = document.getElementById('start');
-  const pauseButton = document.getElementById('pause');
-  const resetButton = document.getElementById('reset');
-  const notificationSound = document.getElementById('notification');
-  const sessionCountDisplay = document.getElementById('session-count');
-  const longBreakCountDisplay = document.getElementById('long-break-count');
-
+window.addEventListener("DOMContentLoaded", () => {
+  const minutesDisplay = document.getElementById("minutes");
+  const secondsDisplay = document.getElementById("seconds");
+  const sessionLengthInput = document.getElementById("session-length");
+  const breakLengthInput = document.getElementById("break-length");
+  const longBreakLengthInput = document.getElementById("long-break-length");
+  const longBreakIntervalInput = document.getElementById("long-break-interval");
+  const startButton = document.getElementById("start");
+  const pauseButton = document.getElementById("pause");
+  const resetButton = document.getElementById("reset");
+  const resumeButton = document.getElementById("resume");
+  const resetStorageButton = document.getElementById("reset-storage");
+  const notificationSound = document.getElementById("notification"); // Assuming you have an audio element with id="notification"
+  const sessionCountDisplay = document.getElementById("session-count");
+  const shortBreakCountDisplay = document.getElementById("short-break-count");
+  const longBreakCountDisplay = document.getElementById("long-break-count");
+  let condition = document.getElementById("condition");
   let timer;
   let totalSeconds;
   let sessionLength;
@@ -19,7 +22,9 @@ window.addEventListener('DOMContentLoaded', () => {
   let longBreakLength;
   let longBreakInterval;
   let sessionCount = 0;
+  let shortBreakCount = 0;
   let longBreakCount = 0;
+  let determine = 0;
 
   function updateSettings() {
     sessionLength = parseInt(sessionLengthInput.value) * 60;
@@ -32,111 +37,105 @@ window.addEventListener('DOMContentLoaded', () => {
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
 
-    minutesDisplay.textContent = String(minutes).padStart(2, '0');
-    secondsDisplay.textContent = String(seconds).padStart(2, '0');
+    minutesDisplay.textContent = String(minutes).padStart(2, "0");
+    secondsDisplay.textContent = String(seconds).padStart(2, "0");
 
     if (totalSeconds === 0) {
       clearInterval(timer);
       notificationSound.play();
+      determine++;
 
-      if (sessionCount % longBreakInterval === 0) {
+      if ((determine - shortBreakCount) % longBreakInterval === 0) {
         totalSeconds = longBreakLength;
         longBreakCount++;
         longBreakCountDisplay.textContent = longBreakCount;
-      } else {
+        condition.textContent = "long break";
+      } else if (determine % 2 !== 0) {
         totalSeconds = breakLength;
+        shortBreakCount++; // Increment short break counter on break start
+        condition.textContent = "short break";
+      } else if (determine % 2 == 0) {
+        totalSeconds = sessionLength;
+        sessionCount++;
+        condition.innerHTML = "work time";
       }
-      sessionCount++;
+
       sessionCountDisplay.textContent = sessionCount;
+      shortBreakCountDisplay.textContent = shortBreakCount; // Update short break count display
+
       timer = setInterval(updateTimer, 1000);
     } else {
       totalSeconds--;
     }
   }
 
-  function startTimer() {
+  startButton.addEventListener("click", function () {
     updateSettings();
     totalSeconds = sessionLength;
     sessionCount++;
+    condition.innerHTML = "work time";
     sessionCountDisplay.textContent = sessionCount;
+    shortBreakCountDisplay.textContent = shortBreakCount; // Display initial short break count
+    longBreakCountDisplay.textContent = longBreakCount; // Display initial long break count
+
+    // Store counters in localStorage before starting timer
+    localStorage.setItem("sessionCount", sessionCount);
+    localStorage.setItem("shortBreakCount", shortBreakCount);
+    localStorage.setItem("longBreakCount", longBreakCount);
+
     timer = setInterval(updateTimer, 1000);
-    startButton.disabled = true;
-    pauseButton.disabled = false;
-  }
+    startButton.style.display = "none";
+    pauseButton.style.display = "inline";
+    resetButton.style.display = "inline";
+    resumeButton.style.display = "none";
+  });
 
-  function pauseTimer() {
+  pauseButton.addEventListener("click", function () {
     clearInterval(timer);
-    startButton.disabled = false;
-    pauseButton.disabled = true;
-  }
+    startButton.style.display = "none";
+    pauseButton.style.display = "none";
+    resetButton.style.display = "inline";
+    resumeButton.style.display = "inline";
+  });
 
-  function resetTimer() {
+  resumeButton.addEventListener("click", function () {
+    timer = setInterval(updateTimer, 1000);
+    startButton.style.display = "none";
+    resumeButton.style.display = "none";
+    pauseButton.style.display = "inline";
+    resumeButton.style.display = "none";
+  });
+
+  resetButton.addEventListener("click", function () {
     clearInterval(timer);
     totalSeconds = sessionLength;
     updateTimer();
-    startButton.disabled = false;
-    pauseButton.disabled = true;
-  }
+    startButton.style.display = "inline";
+    resetButton.style.display = "none";
+    resumeButton.style.display = "none";
+    pauseButton.style.display = "none";
+  });
 
-  startButton.addEventListener('click', startTimer);
-  pauseButton.addEventListener('click', pauseTimer);
-  resetButton.addEventListener('click', resetTimer);
+  resetStorageButton.addEventListener("click", function () {
+    localStorage.removeItem("sessionCount");
+    localStorage.removeItem("shortBreakCount");
+    localStorage.removeItem("longBreakCount");
+    0;
+    sessionCount = 0;
+    shortBreakCount = 0;
+    longBreakCount = 0;
+
+    sessionCountDisplay.textContent = sessionCount;
+    shortBreakCountDisplay.textContent = shortBreakCount;
+    longBreakCountDisplay.textContent = longBreakCount;
+  });
+
+  // Load counters from localStorage on page load
+  sessionCount = parseInt(localStorage.getItem("sessionCount")) || 0;
+  shortBreakCount = parseInt(localStorage.getItem("shortBreakCount")) || 0;
+  shortBreakCount = parseInt(localStorage.getItem("shortBreakCount")) || 0;
+
+  resumeButton.style.display = "none";
+  pauseButton.style.display = "none";
+  resetButton.style.display = "none";
 });
-
-
-
-
-const themes = [
-    {
-      background: "#fff",
-      color: "#000",
-      primaryColor: "#fff"
-  },
-  {
-      background: "#000",
-      color: "#fff",
-      primaryColor: "#000"
-  },
-    {
-        background: "#1A1A2E",
-        color: "#FFFFFF",
-        primaryColor: "#0F3460"
-    },
-    {
-        background: "#461220",
-        color: "#FFFFFF",
-        primaryColor: "#E94560"
-    },
-    {
-        background: "#192A51",
-        color: "#FFFFFF",
-        primaryColor: "#967AA1"
-    },
-    {
-        background: "#231F20",
-        color: "#FFF",
-        primaryColor: "#BB4430"
-    }
-  ];
-  
-  const setTheme = (theme) => {
-    const root = document.querySelector(":root");
-    root.style.setProperty("--background", theme.background);
-    root.style.setProperty("--color", theme.color);
-    root.style.setProperty("--primary-color", theme.primaryColor);
-    root.style.setProperty("--glass-color", theme.glassColor);
-  };
-  
-  const displayThemeButtons = () => {
-    const btnContainer = document.querySelector(".theme-btn-container");
-    themes.forEach((theme) => {
-        const div = document.createElement("div");
-        div.className = "theme-btn";
-        div.style.cssText = `background: ${theme.background}; width: 25px; height: 25px`;
-        btnContainer.appendChild(div);
-        div.addEventListener("click", () => setTheme(theme));
-    });
-  };
-  
-  displayThemeButtons();
-  

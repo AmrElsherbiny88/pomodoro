@@ -1,33 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
-    <title>Pomodoro App</title>
-  
+    <meta name="author" content="AmrElsherbiny">
+    <meta name="keywords" content="Pomodoro, amr elsherbiny, timer, بومودورو, عمرو الشربيني,">
+    <meta name="description" content="pomodoro website full settings and you can download it and it works offline">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Pomodoro App - AmrElsherbiny" />
+    <meta name="application-name" content="Pomodoro App - AmrElsherbiny">
+    <meta property="og:title" content="Pomodoro App - AmrElsherbiny" />
+    <meta property="og:description" content="pomodoro website full settings and you can download it and it works offline" />
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="mainfest.json">
+    <link rel="manifest" href="/app.webmanifest" crossorigin="use-credentials" />
+    <title>Pomodoro App - AmrElsherbiny</title>
 </head>
 <body>
-
-   
+  <button class="reloaddd mt-2" id="installbutton" hidden>Install the app</button>
   <div class="container">
     <h1>Pomodoro Timer</h1>
     <div class="settings">
       <div >
-        <label for="session-length">Session Length (minutes):</label>
+        <label for="session-length">Work<span class="inpspan">(in minutes)</span>:</label>
         <input id="session-length" type="number" min="1" max="60" value="25">
       </div>
       <div >
-        <label for="break-length">Break Length (minutes):</label>
+        <label for="break-length">ShortBreak<span class="inpspan">(in minutes)</span></label>
         <input id="break-length" type="number" min="1" max="60" value="5">
       </div>
       <div >
-        <label for="long-break-length">Long Break Length (minutes):</label>
+        <label for="long-break-length">LongBreak<span class="inpspan">(in minutes)</span>:</label>
         <input id="long-break-length" type="number" min="1" max="60" value="15">
       </div>
       <div >
-        <label for="long-break-interval">Long Break Interval (sessions):</label>
+        <label for="long-break-interval">LongBreak<span class="inpspan">(After .. Work Periods)</span></label>
         <input id="long-break-interval" type="number" min="1" max="60" value="4">
       </div>
     </div>
@@ -37,22 +45,26 @@
       <span id="seconds">00</span>
     </div>
     <div class="session-counters">
-      <p>Session Count: <span id="session-count">0</span></p>
-      <p>Long Break Count: <span id="long-break-count">0</span></p>
+      <h3 id="condition"></h3>
+      <p>Session Count: <span id="session-count"></span></p>
+      <p>Short Break Count: <span id="short-break-count"></span></p>
+      <p>Long Break Count: <span id="long-break-count"></span></p>
     </div>
     <div class="controls">
       <button id="start">Start</button>
       <button id="pause">Pause</button>
+      <button id="resume">resume</button>
       <button id="reset">Reset</button>
+      <button id="reset-storage">Reset The Counter</button>
     </div>
   </div>
-  <div class="theme-btn-container" id="theme-btn"></div>
-
-  <audio id="notification">
-    <source src="mixkit-clear-announce-tones-2861.wav" type="audio/mpeg">
+  <div class="theme-btn-container" id="theme-btn"></div>  <audio id="notification">
+    <source src="mixkit-clear-announce-tones-2861_43iHpxKb.wav" type="audio/mpeg">
   </audio>
 
-
-  <script src="script.js"></script>
-</body>
+  <script src="instt.js"></script>
+  <script integrity="">
+    navigator.serviceWorker.register('sw.js');
+</script> 
+  <script src="script.js"></script>  </body>
 </html>
