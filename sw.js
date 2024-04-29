@@ -1,4 +1,4 @@
-const CACHE_NAME = 'Pomodorov2';
+const CACHE_NAME = 'PomodoroV3';
 const urlsToCache = [
     '/',
     '/script.js',
@@ -32,12 +32,3 @@ self.addEventListener('fetch', event => {
 });
 
 
-// Service Worker-based solution
-self.addEventListener('activate', async () => {
-    // after we've taken over, iterate over all the current clients (windows)
-    const tabs = await self.clients.matchAll({type: 'window'})
-    tabs.forEach((tab) => {
-      // ...and refresh each one of them
-      tab.navigate(tab.url)
-    })
-  })
