@@ -1,0 +1,19 @@
+{
+    "headers": [
+      {
+        "source": "/",
+        "has": [
+          {
+            "type": "host",
+            "value": "https://pomodoro-amr-elsherbinys-projects.vercel.app/"
+          }
+        ],
+        "headers" : [
+          {
+            "key" : "X-Robots-Tag",
+            "value" : "index"
+          }
+        ]
+      }
+    ]
+  }
