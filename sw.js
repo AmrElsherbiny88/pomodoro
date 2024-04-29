@@ -1,4 +1,4 @@
-const CACHE_NAME = 'Pomodorov1';
+const CACHE_NAME = 'Pomodorov2';
 const urlsToCache = [
     '/',
     '/script.js',

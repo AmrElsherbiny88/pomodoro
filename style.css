@@ -70,3 +70,12 @@ body {
   .inpspan {
     color: red;
   }
+
+  .installdiv p {
+    font-size: larger;
+    color: rgb(251, 20, 20);
+  }
+
+  .installdiv{
+    margin-top: -50px;
+  }
